@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SecondService } from './services/second.service';
+import { ThirdService } from './services/third.service';
 import { WebsocketService } from './services/websocket.service';
 
 @Component({
@@ -13,10 +15,12 @@ export class AppComponent {
   output: any[] = [];
   feedback!: string;
 
-  constructor(private webSocketService: WebsocketService) { }
+  constructor(private webSocketService: WebsocketService, private service: SecondService, private third : ThirdService) { }
   ngOnInit(): void {
-    this.webSocketService.listen('typing').subscribe((data) => this.updateFeedback(data));
-    this.webSocketService.listen('chat').subscribe((data) => this.updateMessage(data));
+    // this.webSocketService.listen('typing').subscribe((data) => this.updateFeedback(data));
+    // this.webSocketService.listen('chat').subscribe((data) => this.updateMessage(data));
+    this.third.openWebSocket();
+    this.third.sendMessage('I am here');
   }
 
   messageTyping(): void {
@@ -29,6 +33,9 @@ export class AppComponent {
       handle: this.userName
     });
     this.message = "";
+  }
+  sendMessageTwo(): void {
+    this.third.sendMessage("I'm here")
   }
 
   updateMessage(data:any) {

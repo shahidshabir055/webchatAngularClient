@@ -15,9 +15,10 @@ export class WebsocketService {
   .set('Access-Control-Allow-Origin', '*')
   .set('Cache-Control','no-cache')
   constructor(private http: HttpClient) {
-      this.socket = io.connect("http://localhost:3000");
+      this.socket = io.connect("http://localhost:3000", {
+      });
 
-      console.log("connecting >>>>>>>>>>>>");
+      console.log("connecting ...");
   }
 
   listen(eventname: string) : Observable<any> {
@@ -27,7 +28,6 @@ export class WebsocketService {
           })
       })
   }
-
   emit(eventname: string, data: any) {
       this.socket.emit(eventname, data);
   }
